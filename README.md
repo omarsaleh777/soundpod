@@ -196,5 +196,6 @@ notes.
 
 ## License
 
-MIT for the SoundPod code. See [LICENSE](LICENSE). SoundVolumeView remains
+MIT for the SoundPod code. See [LICENSE](LICENSE) and
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). SoundVolumeView remains
 NirSoft freeware under its own terms. VB-CABLE is not included.

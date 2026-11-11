@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party components are not covered by this license:
-
-- SoundVolumeView by NirSoft is bundled unmodified as freeware under its own
-  terms. See tools/SoundVolumeView/readme.txt.
-- VB-CABLE by VB-Audio is an external dependency and is not included.

@@ -45,6 +45,7 @@ jobs:
           Copy-Item tools\SoundVolumeView\SoundVolumeView.chm release\tools\SoundVolumeView
           Copy-Item README.md release
           Copy-Item LICENSE release
+          Copy-Item THIRD_PARTY_NOTICES.md release
           Copy-Item packaging\START-HERE.txt release
           Compress-Archive -Path release\* -DestinationPath SoundPod-release.zip -Force
 
