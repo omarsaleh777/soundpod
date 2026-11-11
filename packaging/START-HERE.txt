@@ -1,0 +1,35 @@
+SoundPod — quick start
+======================
+
+1. Install VB-CABLE once (needed for the microphone path):
+   https://vb-audio.com/Cable/
+   Run VBCABLE_Setup_x64.exe as administrator, then reboot.
+
+2. Double-click SoundPod.exe.
+   If Windows SmartScreen appears, click "More info" > "Run anyway".
+
+3. Click "PREFERENCES" on the green control strip (or File > Preferences).
+   On the Audio tab choose:
+     - Speakers: your headphones or speakers
+     - Microphone: your real microphone
+     - Cable input for mic injection: CABLE Input (VB-Audio Virtual Cable)
+   Leave "Make CABLE Output the Windows default microphone..." on.
+   Click Apply, then OK.
+
+4. In Discord / TeamSpeak / your game:
+     - Microphone: CABLE Output (VB-Audio Virtual Cable)
+     - Turn OFF noise suppression, auto gain and echo cancellation.
+   Apps that follow the Windows default microphone need no change: SoundPod
+   switches the default to CABLE Output while it runs and restores it on exit.
+
+5. The control strip should show:
+     MIC INJECTION: ON
+     WINDOWS MIC: CABLE OUTPUT
+   If not, click "Open audio setup" and check the two devices above.
+
+Notes
+-----
+- SoundPod must stay running while you use voice chat.
+- Data is stored in %APPDATA%\SoundPod (library, settings, recordings).
+- If something fails, check %APPDATA%\SoundPod\crash.log.
+- No installer, no admin rights, no account, no cloud.
