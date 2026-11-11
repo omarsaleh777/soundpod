@@ -90,6 +90,8 @@ If either is wrong, click **Open audio setup** on the orange banner.
   sound ends; `f` taps F. Example: `~ctrl, f`.
 - **Text to speech**: type text, choose a voice, click **Speak to both**.
 - **Record**: choose microphone or system audio, then **Start recording**.
+  Microphone recording uses the mic selected in **Preferences > Audio**, not the
+  Windows default (which SoundPod switches to `CABLE Output`).
 - **Phone remote**: **Window > Phone remote**. Open the address shown on a phone
   in the same Wi-Fi. The link contains a private session key; keep it to
   yourself. Windows Firewall may ask once.
