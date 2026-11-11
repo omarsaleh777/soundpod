@@ -68,13 +68,13 @@ from .editor import SoundEditor
 from .hotkeys import HotkeyManager
 from .library import AUDIO_FILTER, Library, Sound, fmt_duration
 from .preferences import HotkeyDialog, PreferencesDialog
-from .recorder import Recorder
+from .recorder import Recorder, record_helper_available
 from . import winaudio
 from .remote import RemoteServer
 from .tts import TTS
 
 APP_NAME = "SoundPod"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 STYLE = """
 QWidget {
@@ -701,6 +701,12 @@ class MainWindow(QMainWindow):
         self.record_hint = QLabel("Recordings are saved to the library.")
         self.record_hint.setObjectName("muted")
         layout.addWidget(self.record_hint)
+        if getattr(sys, "frozen", False) and not record_helper_available():
+            self.record_hint.setText(
+                "Recording is unavailable: SoundPodRecorder.exe is missing. "
+                "Extract the whole zip so it stays next to SoundPod.exe."
+            )
+            self.record_hint.setStyleSheet("color:#ffbf69;")
         layout.addStretch(1)
         self._record_timer = QTimer(self)
         self._record_timer.setInterval(250)
@@ -1711,6 +1717,11 @@ class MainWindow(QMainWindow):
                 self.record_btn.setEnabled(True)
                 self._record_timer.stop()
                 self._append_log(f"Recording failed: {message}")
+                QMessageBox.warning(
+                    self,
+                    "Could not save recording",
+                    f"SoundPod could not save the recording.\n\n{message}",
+                )
 
             self._run_task(work, on_done=done, on_fail=failed)
             return
@@ -1718,6 +1729,12 @@ class MainWindow(QMainWindow):
             self.recorder.start(self.record_source.currentData())
         except Exception as exc:
             self._append_log(f"Recording failed: {exc}")
+            QMessageBox.warning(
+                self,
+                "Could not start recording",
+                f"{exc}\n\nIf this is a downloaded build, extract the whole "
+                "SoundPod zip. SoundPodRecorder.exe must stay next to SoundPod.exe.",
+            )
             return
         self.record_btn.setText("■  Stop recording")
         self.record_time.setText("0:00")
@@ -1861,6 +1878,7 @@ class MainWindow(QMainWindow):
             (device for device in list_devices() if device.index == mic),
             None,
         )
+        self.recorder.set_microphone(chosen.name if chosen is not None else "")
         hint = ""
         if chosen is not None:
             api = hostapi_name(chosen.hostapi)

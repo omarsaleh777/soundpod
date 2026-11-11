@@ -29,6 +29,7 @@ Copy-Item "tools\SoundVolumeView\SoundVolumeView.chm" "$release\tools\SoundVolum
 Copy-Item "README.md" $release
 Copy-Item "LICENSE" $release
 Copy-Item "THIRD_PARTY_NOTICES.md" $release
+Copy-Item "CHANGELOG.md" $release
 Copy-Item "packaging\START-HERE.txt" $release
 
 Write-Host "== Creating zip ==" -ForegroundColor Cyan

@@ -16,8 +16,9 @@ You do **not** need Python to use the release.
 
 1. Open the **[Releases page](https://github.com/omarsaleh777/soundpod/releases/latest)**.
 2. Download `SoundPod-release.zip` from the latest release.
-3. **Extract the zip** to a folder such as `C:\SoundPod`. Do not run it from
-   inside the zip.
+3. **Extract all files** (not just `SoundPod.exe`) to a folder such as
+   `C:\SoundPod`. Keep `SoundPodRecorder.exe` and the `tools` folder next to
+   `SoundPod.exe`.
 4. Install **VB-CABLE** once (see below).
 5. Run `SoundPod.exe`.
 6. Open **Preferences > Audio** and choose your speakers, microphone, and
@@ -118,6 +119,9 @@ If either is wrong, click **Open audio setup** on the orange banner.
 
 ## Troubleshooting
 
+- **Recording does not start**: `SoundPodRecorder.exe` must be in the same
+  folder as `SoundPod.exe`. Extract the whole zip; do not copy only the EXE.
+  The app also shows this message if the helper is missing.
 - **The app does not open**: check `%APPDATA%\SoundPod\crash.log`. A second copy
   may already be running; SoundPod brings the existing window to the front.
   Look for its tray icon.
@@ -171,7 +175,7 @@ This produces `release\SoundPod.exe`, `release\SoundPodRecorder.exe`, and
 `SoundPod-release.zip`. The PyInstaller specs are in `packaging/`.
 
 The GitHub workflow in `.github/workflows/build.yml` builds the same zip on a
-Windows runner. Push a tag such as `v1.0.0` and it attaches the zip to the
+Windows runner. Push a tag such as `v1.0.1` and it attaches the zip to the
 GitHub release.
 
 ## How it works

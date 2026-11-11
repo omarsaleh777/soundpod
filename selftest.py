@@ -74,6 +74,13 @@ def main() -> None:
             "-m" in command and "soundpod.record_worker" in command,
             "recorder builds the source-run worker command",
         )
+        mic_command = worker_command(
+            "microphone", 48000, root / "x.pcm", "Microphone (Test)"
+        )
+        check(
+            "--microphone" in mic_command and "Microphone (Test)" in mic_command,
+            "recorder passes the selected microphone to the worker",
+        )
 
         tts = TTS(root / "tts")
         voices = tts.voices()

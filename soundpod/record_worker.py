@@ -17,16 +17,35 @@ import numpy as np
 import soundcard as sc
 
 
-def pick_device(source: str):
+def pick_microphone(name: str = ""):
+    """Pick the selected physical microphone, never the virtual cable by default."""
+    candidates = list(sc.all_microphones(include_loopback=False))
+    wanted = (name or "").strip().lower()
+    if wanted:
+        for mic in candidates:
+            if mic.name.strip().lower() == wanted:
+                return mic
+        for mic in candidates:
+            current = mic.name.strip().lower()
+            if wanted in current or current in wanted:
+                return mic
+    virtual = ("cable", "voicemeeter", "virtual", "stereo mix")
+    for mic in candidates:
+        if not any(token in mic.name.lower() for token in virtual):
+            return mic
+    mic = sc.default_microphone()
+    if mic is None:
+        raise RuntimeError("No microphone found")
+    return mic
+
+
+def pick_device(source: str, microphone: str = ""):
     if source == "system":
         speaker = sc.default_speaker()
         if speaker is None:
             raise RuntimeError("No default speaker")
         return sc.get_microphone(speaker.name, include_loopback=True)
-    mic = sc.default_microphone()
-    if mic is None:
-        raise RuntimeError("No default microphone")
-    return mic
+    return pick_microphone(microphone)
 
 
 def main() -> int:
@@ -34,6 +53,7 @@ def main() -> int:
     parser.add_argument("--source", choices=("microphone", "system"), default="microphone")
     parser.add_argument("--rate", type=int, default=48_000)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--microphone", default="")
     args = parser.parse_args()
 
     stop = threading.Event()
@@ -49,7 +69,7 @@ def main() -> int:
 
     threading.Thread(target=watch_stdin, daemon=True).start()
 
-    device = pick_device(args.source)
+    device = pick_device(args.source, args.microphone)
     channels = max(1, min(2, int(getattr(device, "channels", 2) or 2)))
     sys.stdout.write("ready\n")
     sys.stdout.flush()

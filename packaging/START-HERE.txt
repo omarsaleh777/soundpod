@@ -6,6 +6,8 @@ SoundPod — quick start
    Run VBCABLE_Setup_x64.exe as administrator, then reboot.
 
 2. Double-click SoundPod.exe.
+   Keep SoundPodRecorder.exe and the tools folder next to it: extract the whole
+   zip, not just the EXE.
    If Windows SmartScreen appears, click "More info" > "Run anyway".
 
 3. Click "PREFERENCES" on the green control strip (or File > Preferences).

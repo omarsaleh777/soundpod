@@ -39,16 +39,21 @@ def _record_helper() -> Path | None:
     return None
 
 
-def worker_command(source: str, rate: int, output: Path) -> list[str]:
+def record_helper_available() -> bool:
+    """True when the frozen recorder helper is present (or running from source)."""
+    return not getattr(sys, "frozen", False) or _record_helper() is not None
+
+
+def worker_command(source: str, rate: int, output: Path, microphone: str = "") -> list[str]:
     """Build the child-process command for source runs and frozen builds."""
     helper = _record_helper()
     if getattr(sys, "frozen", False):
         if helper is None:
             raise RuntimeError(
-                "SoundPodRecorder.exe is missing from the application folder. "
-                "Reinstall or rebuild SoundPod."
+                "SoundPodRecorder.exe is missing. Extract the whole SoundPod zip "
+                "so SoundPodRecorder.exe stays next to SoundPod.exe."
             )
-        return [
+        command = [
             str(helper),
             "--source",
             source,
@@ -57,7 +62,10 @@ def worker_command(source: str, rate: int, output: Path) -> list[str]:
             "--output",
             str(output),
         ]
-    return [
+        if microphone and source == "microphone":
+            command += ["--microphone", microphone]
+        return command
+    command = [
         sys.executable,
         "-m",
         "soundpod.record_worker",
@@ -68,6 +76,9 @@ def worker_command(source: str, rate: int, output: Path) -> list[str]:
         "--output",
         str(output),
     ]
+    if microphone and source == "microphone":
+        command += ["--microphone", microphone]
+    return command
 
 
 class Recorder:
@@ -80,6 +91,10 @@ class Recorder:
         self._error: str | None = None
         self.started_at: float = 0.0
         self._source = "microphone"
+        self.microphone_name = ""
+
+    def set_microphone(self, name: str) -> None:
+        self.microphone_name = str(name or "").strip()
 
     def set_output_dir(self, path: Path | str) -> None:
         target = Path(path)
@@ -102,7 +117,7 @@ class Recorder:
         self._source = source
         self.started_at = time.time()
         flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
-        command = worker_command(source, RATE, self._part)
+        command = worker_command(source, RATE, self._part, self.microphone_name)
         if getattr(sys, "frozen", False):
             cwd = str(Path(sys.executable).resolve().parent)
         else:
