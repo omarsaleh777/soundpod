@@ -1,5 +1,9 @@
 # SoundPod
 
+[![Build Windows EXE](https://github.com/omarsaleh777/soundpod/actions/workflows/build.yml/badge.svg)](https://github.com/omarsaleh777/soundpod/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/omarsaleh777/soundpod)](https://github.com/omarsaleh777/soundpod/releases/latest)
+
 A free Windows soundboard. Play sounds and local text-to-speech through your
 microphone in Discord, TeamSpeak, games, or any app that records audio.
 
@@ -10,7 +14,7 @@ Not affiliated with Leppsoft.
 
 You do **not** need Python to use the release.
 
-1. Open the **[Releases page](../../releases)**.
+1. Open the **[Releases page](https://github.com/omarsaleh777/soundpod/releases/latest)**.
 2. Download `SoundPod-release.zip` from the latest release.
 3. **Extract the zip** to a folder such as `C:\SoundPod`. Do not run it from
    inside the zip.
