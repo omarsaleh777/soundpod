@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3
+
+- **Set volume…** now updates the Volume column immediately. It previously
+  saved the value but only showed it after another action refreshed the table.
+- Reopening the volume dialog shows the new value right away.
+
 ## 1.0.2
 
 - The Devices tab is taller and can be resized by dragging the divider above

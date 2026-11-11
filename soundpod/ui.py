@@ -74,7 +74,7 @@ from .remote import RemoteServer
 from .tts import TTS
 
 APP_NAME = "SoundPod"
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 STYLE = """
 QWidget {
@@ -1466,6 +1466,11 @@ class MainWindow(QMainWindow):
             return
         sound.gain = value / 100.0
         self.library.save()
+        row = self.table.currentRow()
+        if row >= 0:
+            item = self.table.item(row, 3)
+            if item is not None:
+                item.setText(f"{value}%")
         self._append_log(f"{sound.title}: volume {value}%.")
 
     def _set_auto_keys(self) -> None:

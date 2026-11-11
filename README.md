@@ -180,7 +180,7 @@ This produces `release\SoundPod.exe`, `release\SoundPodRecorder.exe`, and
 `SoundPod-release.zip`. The PyInstaller specs are in `packaging/`.
 
 The GitHub workflow in `.github/workflows/build.yml` builds the same zip on a
-Windows runner. Push a tag such as `v1.0.2` and it attaches the zip to the
+Windows runner. Push a tag such as `v1.0.3` and it attaches the zip to the
 GitHub release.
 
 ## How it works
