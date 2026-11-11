@@ -74,7 +74,7 @@ from .remote import RemoteServer
 from .tts import TTS
 
 APP_NAME = "SoundPod"
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 STYLE = """
 QWidget {
@@ -173,6 +173,8 @@ QScrollBar::handle:vertical { background: #2a3645; border-radius: 5px; min-heigh
 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
 QStatusBar { background: #0b0e13; color: #7f8c9c; border-top: 1px solid #1b222c; }
 QSplitter::handle { background: #1b222c; width: 1px; }
+QSplitter::handle:vertical { height: 6px; }
+QSplitter::handle:hover { background: #2ecc71; }
 QFrame#panel { background: #0f1319; }
 QLabel#muted { color: #7f8c9c; }
 QLabel#accent { color: #86f5b0; font-weight: 600; }
@@ -562,7 +564,12 @@ class MainWindow(QMainWindow):
         header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
-        right_layout.addWidget(self.table, 1)
+
+        upper = QWidget()
+        upper_layout = QVBoxLayout(upper)
+        upper_layout.setContentsMargins(0, 0, 0, 0)
+        upper_layout.setSpacing(0)
+        upper_layout.addWidget(self.table, 1)
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -575,15 +582,24 @@ class MainWindow(QMainWindow):
         self.hotbar_layout.setSpacing(5)
         self.hotbar_layout.addStretch(1)
         scroll.setWidget(self.hotbar_widget)
-        right_layout.addWidget(scroll)
+        upper_layout.addWidget(scroll)
 
         self.tabs = QTabWidget()
         self.tabs.addTab(self._build_tts_tab(), "Text to speech")
         self.tabs.addTab(self._build_recorder_tab(), "Recorder")
         self.tabs.addTab(self._build_settings_tab(), "Devices")
         self.tabs.addTab(self._build_log_tab(), "Log")
-        self.tabs.setFixedHeight(205)
-        right_layout.addWidget(self.tabs)
+        self.tabs.setMinimumHeight(300)
+        self.tabs.setToolTip("Drag the divider above to make this panel taller or shorter.")
+
+        self.bottom_splitter = QSplitter(Qt.Vertical)
+        self.bottom_splitter.addWidget(upper)
+        self.bottom_splitter.addWidget(self.tabs)
+        self.bottom_splitter.setChildrenCollapsible(False)
+        self.bottom_splitter.setStretchFactor(0, 1)
+        self.bottom_splitter.setStretchFactor(1, 0)
+        self.bottom_splitter.setSizes([420, 320])
+        right_layout.addWidget(self.bottom_splitter, 1)
         splitter.addWidget(right)
         splitter.setSizes([215, 865])
         splitter.setStretchFactor(0, 0)
@@ -754,7 +770,10 @@ class MainWindow(QMainWindow):
         grid.addLayout(buttons)
         outer.addLayout(grid, 1)
 
-        options = QVBoxLayout()
+        options_widget = QWidget()
+        options = QVBoxLayout(options_widget)
+        options.setContentsMargins(0, 0, 6, 0)
+        options.setSpacing(4)
         self.block_check = QCheckBox("Block voice while playing (replace mic)")
         self.block_check.toggled.connect(self._block_changed)
         self.normalize_check = QCheckBox("Normalize volume on playback")
@@ -788,7 +807,14 @@ class MainWindow(QMainWindow):
         self.fix_default_btn.hide()
         options.addWidget(self.fix_default_btn)
         options.addStretch(1)
-        outer.addLayout(options, 0)
+
+        options_scroll = QScrollArea()
+        options_scroll.setWidgetResizable(True)
+        options_scroll.setFrameShape(QFrame.NoFrame)
+        options_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        options_scroll.setMinimumWidth(390)
+        options_scroll.setWidget(options_widget)
+        outer.addWidget(options_scroll, 0)
         return tab
 
     def _build_log_tab(self) -> QWidget:

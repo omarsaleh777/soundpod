@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.2
+
+- The Devices tab is taller and can be resized by dragging the divider above
+  the tabs.
+- The device options now scroll, so **Block voice**, **Normalize**, **Always on
+  top**, **Global hotkeys**, and **Start SoundPod with Windows** stay reachable
+  on small windows.
+
 ## 1.0.1
 
 - Fixed recording failing when `SoundPodRecorder.exe` was missing. The app now

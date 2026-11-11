@@ -92,6 +92,9 @@ If either is wrong, click **Open audio setup** on the orange banner.
 - **Record**: choose microphone or system audio, then **Start recording**.
   Microphone recording uses the mic selected in **Preferences > Audio**, not the
   Windows default (which SoundPod switches to `CABLE Output`).
+- **Resize the bottom panel**: drag the divider above the *Text to speech /
+  Recorder / Devices / Log* tabs. The Devices options also scroll, so every
+  checkbox stays reachable.
 - **Phone remote**: **Window > Phone remote**. Open the address shown on a phone
   in the same Wi-Fi. The link contains a private session key; keep it to
   yourself. Windows Firewall may ask once.
@@ -177,7 +180,7 @@ This produces `release\SoundPod.exe`, `release\SoundPodRecorder.exe`, and
 `SoundPod-release.zip`. The PyInstaller specs are in `packaging/`.
 
 The GitHub workflow in `.github/workflows/build.yml` builds the same zip on a
-Windows runner. Push a tag such as `v1.0.1` and it attaches the zip to the
+Windows runner. Push a tag such as `v1.0.2` and it attaches the zip to the
 GitHub release.
 
 ## How it works
